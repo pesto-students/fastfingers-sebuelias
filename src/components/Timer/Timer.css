@@ -1,8 +1,8 @@
 /* Sets the containers height and width */
 .base-timer {
   position: relative;
-  height: 300px;
-  width: 300px;
+  height: var(--timerDimension);
+  width: var(--timerDimension);
 }
 
 /* Removes SVG styling that would hide the time label */
@@ -21,8 +21,8 @@
   position: absolute;
 
   /* Size should match the parent container */
-  width: 300px;
-  height: 300px;
+  width: var(--timerDimension);
+  height: var(--timerDimension);
 
   /* Keep the label aligned to the top */
   top: 0;
@@ -48,14 +48,15 @@
   transform-origin: center;
 
   /* One second aligns with the speed of the countdown timer */
-  transition: 1s linear all;
+  transition: 0.001s linear all;
 
   /* Allows the ring to change color when the color value updates */
   stroke: currentColor;
 }
 
 .base-timer__path-remaining.green {
-  color: rgb(65, 184, 131);
+  /* color: rgb(65, 184, 131); */
+  color: var(--rightChar);
 }
 
 .base-timer__path-remaining.orange {
@@ -63,7 +64,7 @@
 }
 
 .base-timer__path-remaining.red {
-  color: red;
+  color: var(--lightRed);
 }
 
 .base-timer__svg {

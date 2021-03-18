@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 *,
 *:before,
 *:after,
@@ -10,12 +13,30 @@
   --white: #fff;
   --coolGrey: #97a5a7;
   --everGreen: #032228;
+  --rightChar: #54ba18;
+  --wrongChar: #445298;
+  --timerDimension: 250px;
   background-image: url('./assets/background.svg');
   background-size: auto;
   background-repeat: no-repeat;
   object-fit: contain;
+  font-family: 'Poppins', 'Lato', sans-serif;
 }
 
+html {
+  height: 100%;
+  overflow: auto;
+}
+body {
+  min-height: 100%;
+
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
 /* body {
   background-image: url('./assets/background.svg'),
     linear-gradient(to top, #063c47, #000000);
@@ -41,7 +62,7 @@
   text-transform: uppercase;
 }
 .user-input {
-  width: 100%;
+  /* width: 100%; */
   height: 4rem;
   border-radius: 15px;
   box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.8);
@@ -65,6 +86,10 @@
   padding: 1rem;
 }
 
+.required:focus {
+  /* box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.8); */
+  box-shadow: 0 3px 16px 0 rgba(255, 81, 85, 0.8);
+}
 .required::placeholder {
   color: var(--lightRed);
   padding: 1rem;
@@ -83,6 +108,7 @@
 .button:focus,
 .button:hover {
   cursor: pointer;
+  box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.8);
 }
 
 .button::before,
@@ -90,7 +116,6 @@
   box-sizing: inherit;
   position: absolute;
   content: '';
-  border-top: 2px solid transparent;
   border-bottom: 2px solid transparent;
   width: 0;
   height: 0;
@@ -98,7 +123,7 @@
 
 .button::after {
   bottom: 0;
-  right: 0;
+  right: 50;
 }
 
 .button::before {
@@ -110,22 +135,22 @@
 .button:hover::after,
 .button:focus::before,
 .button:focus::after {
-  width: 100%;
+  width: 50%;
   height: 100%;
-}
-
-.button:focus::before,
-.button:hover::before {
-  border-top-color: var(--lightRed);
-  /* border-right-color: var(--lightRed); */
-  transition: width 0.3s ease-out 0.2s /* , height 0.3s ease-out 0.3s */;
 }
 
 .button:focus::after,
 .button:hover::after {
   border-bottom-color: var(--lightRed);
-  /* border-left-color: var(--lightRed); */
-  transition: /* border-color 0s ease-out 0.6s, */ width 0.3s ease-out 0.2s
-    /* ,
-    height 0.3s ease-out 1s */;
+
+  transition: width 0.3s ease-out 0.2s;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding: 2% 2%;
 }

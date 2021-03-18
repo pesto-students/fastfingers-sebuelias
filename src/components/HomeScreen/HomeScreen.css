@@ -63,6 +63,7 @@
   background-color: transparent;
   color: var(--coolGrey);
   font-size: 2rem;
+  width: 100%;
 }
 
 .game-difficulty select {

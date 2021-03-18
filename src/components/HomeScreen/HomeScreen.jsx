@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import KeyboardIcon from '../../assets/keyboard.svg';
 import PlayIcon from '../../assets/play.svg';
 import './HomeScreen.css';
 import GameScreen from '../GameScreen/GameScreen';
+import {
+  difficultyUtil,
+  getNameOfCurrentUserScores,
+  sessionStorageKeys,
+} from '../../util';
+
+const initSessionStorage = (userName, difficulty) => {
+  sessionStorage.setItem(sessionStorageKeys.USERNAME, userName);
+  sessionStorage.setItem(sessionStorageKeys.SELECTED_DIFFICULTY, difficulty);
+  sessionStorage.setItem(getNameOfCurrentUserScores(userName), '');
+};
 
 export default function HomeScreen() {
-  return <GameScreen />;
-
-  /*
   const [userName, setUserName] = useState('');
-  const [difficulty, setDifficulty] = useState('easy');
+  const [difficulty, setDifficulty] = useState(difficultyUtil.EASY);
   const [isPlaying, setIsPlaying] = useState(false);
   const [userNamePlaceHolder, setUserNamePlaceHolder] = useState(
     'type your name',
@@ -24,8 +31,10 @@ export default function HomeScreen() {
   } else {
     requiredCssClass = 'required';
   }
+
   const onPlayClick = () => {
     if (userName) {
+      initSessionStorage(userName, difficulty);
       setIsPlaying(true);
     } else {
       setUserNamePlaceHolder('name required');
@@ -34,24 +43,15 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
-    // if (userNameRef.current) {
-    userNameRef.current.focus();
-    // }
+    sessionStorage.clear();
+    if (userNameRef.current) {
+      userNameRef.current.focus();
+    }
   }, []);
 
-  useEffect(() => {
-    sessionStorage.setItem('userName', userName);
-  }, [userName]);
-
-  useEffect(() => {
-    sessionStorage.setItem('difficulty', difficulty);
-  }, [difficulty]);
-
-  if (isPlaying) {
-    return <GameScreen />;
-  }
-
-  return (
+  return isPlaying ? (
+    <GameScreen />
+  ) : (
     <div className='home-screen-elements'>
       <div className='home-screen-heading'>
         <div className='keyboard-image'>
@@ -78,23 +78,23 @@ export default function HomeScreen() {
           className='user-input game-difficulty uppercase'
           value={difficulty}
           onChange={(event) => {
-            setDifficulty(event.target.value);
+            let value = Array.from(
+              event.target.selectedOptions,
+              (option) => option.value,
+            );
+            setDifficulty(value);
           }}
         >
-          <option value='easy'>Easy</option>
-          <option value='medium'>Medium</option>
-          <option value='hard'>Hard</option>
+          <option value={difficultyUtil.EASY}>{difficultyUtil.EASY}</option>
+          <option value={difficultyUtil.MEDIUM}>{difficultyUtil.MEDIUM}</option>
+          <option value={difficultyUtil.HARD}>{difficultyUtil.HARD}</option>
         </select>
       </div>
 
       <button className='start-button button uppercase' onClick={onPlayClick}>
-        <img
-          className='start-button-image'
-          src={PlayIcon}
-          alt='Start Game Button'
-        />
+        <img className='button-image' src={PlayIcon} alt='Start Game Button' />
         START GAME
       </button>
     </div>
-  ); */
+  );
 }
