@@ -42,10 +42,11 @@ export const updateDifficultyWithDifficultyFactor = (difficultyFactor) => {
 
 export const getHighScore = () => {
   const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  const scoresArray = sessionStorage
-    .getItem(getNameOfCurrentUserScores(userName))
-    .trim()
-    .split(' ');
+  const scores = sessionStorage.getItem(getNameOfCurrentUserScores(userName));
+  const scoresArray = scores ? scores.trim().split(' ') : [];
+  if (scoresArray.length === 0) {
+    return Number(0);
+  }
   const highestScore = scoresArray.reduce((prev, current) => {
     return Math.max(Number(prev), Number(current));
   });

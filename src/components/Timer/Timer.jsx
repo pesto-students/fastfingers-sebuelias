@@ -1,72 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Timer.css';
-import { sessionStorageKeys } from '../../util';
-
-const FULL_DASH_ARRAY = 283;
-// Warning occurs at 50%
-const WARNING_THRESHOLD = 50;
-// Alert occurs at 25%
-const ALERT_THRESHOLD = 25;
-
-const COLOR_CODES = {
-  info: {
-    color: 'green',
-  },
-  warning: {
-    color: 'orange',
-    threshold: WARNING_THRESHOLD,
-  },
-  alert: {
-    color: 'red',
-    threshold: ALERT_THRESHOLD,
-  },
-};
-
-const formatTimeLeft = (time) => {
-  let seconds = Math.floor(time / 1000);
-  if (seconds < 10) {
-    seconds = `0${seconds}`;
-  }
-
-  let milliseconds = Math.round((time % 1000) / 10);
-  if (milliseconds < 10) {
-    milliseconds = `0${milliseconds}`;
-  }
-
-  return `${seconds}:${milliseconds}`;
-};
-
-// Update the dasharray value as time passes, starting with 283
-function calculateCircleDasharray(duration, remainingTime) {
-  return `${(
-    calculateTimeFraction(duration, remainingTime) * FULL_DASH_ARRAY
-  ).toFixed(0)} 283`;
-}
-
-function calculateTimeFraction(duration, remainingTime) {
-  const fraction = remainingTime / duration;
-  return fraction - (1 / duration) * (1 - fraction);
-  // return fraction;
-}
-
-function calculateRemainingPathColor(duration, timeLeft) {
-  const { alert, warning, info } = COLOR_CODES;
-
-  const timeLeftPercent = (timeLeft / duration) * 100;
-
-  if (timeLeftPercent <= alert.threshold) {
-    return alert.color;
-  } else if (timeLeftPercent <= warning.threshold) {
-    return warning.color;
-  }
-  return info.color;
-}
+import { sessionStorageKeys, difficultyUtil } from '../../util';
+import {
+  secondsToMilliseconds,
+  calculateCircleDasharray,
+  calculateRemainingPathColor,
+  formatTimeLeft,
+} from './TimerUtil';
 
 export default function Timer({ duration, difficultyFactor, onTimeOut }) {
   const currentScore =
     sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0;
-  const timeinMillisec = duration * 1000;
+  const timeinMillisec = secondsToMilliseconds(duration);
 
   const [remainingTime, setRemainingTime] = useState(timeinMillisec);
   const [circleDasharray, setCircleDasharray] = useState(
@@ -80,6 +26,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
   let timerInterval = null;
 
   const startTimer = () => {
+    console.log('timer');
     timerInterval = setInterval(() => {
       if (remainingTime > 0) {
         setRemainingTime((prevRemainingTime) => prevRemainingTime - 2);
@@ -87,7 +34,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     }, 1);
   };
 
-  // ! Questionable score logic, need to check
+  // !Questionable score logic, need to check
   const updateScore = () => {
     const timeTakenForWord = Math.floor(timeinMillisec - remainingTime);
     const timeTakenInSeconds = Number((timeTakenForWord / 1000).toFixed(2));
@@ -95,12 +42,15 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     return newScore;
   };
 
+  const setNewTimeAndResetTimer = (newTime) => {
+    setRemainingTime(secondsToMilliseconds(newTime));
+    clearInterval(timerInterval);
+  };
+
   useEffect(() => {
     sessionStorage.setItem(sessionStorageKeys.CURRENT_SCORE, updateScore());
     setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
-
-    setRemainingTime(duration * 1000);
-    clearInterval(timerInterval);
+    setNewTimeAndResetTimer(duration);
     startTimer();
   }, [difficultyFactor]);
 
@@ -112,23 +62,19 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
 
     if (remainingTime <= 0) {
       sessionStorage.setItem(sessionStorageKeys.CURRENT_SCORE, updateScore());
-      clearInterval(timerInterval);
-      setRemainingTime(0);
+      setNewTimeAndResetTimer(0);
       onTimeOut();
     }
   }, [remainingTime]);
 
   useEffect(() => {
-    startTimer();
-
     if (remainingTime <= 0) {
-      clearInterval(timerInterval);
-      setRemainingTime(0);
+      setNewTimeAndResetTimer(0);
+    } else {
+      startTimer();
     }
-
     return () => {
-      clearInterval(timerInterval);
-      setRemainingTime(0);
+      setNewTimeAndResetTimer(0);
     };
   }, []);
 
@@ -165,4 +111,10 @@ Timer.propTypes = {
   difficultyFactor: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
   onTimeOut: PropTypes.func,
+};
+
+Timer.defaultProps = {
+  difficultyFactor: difficultyUtil.EASY,
+  duration: secondsToMilliseconds(2),
+  onTimeOut: () => {},
 };

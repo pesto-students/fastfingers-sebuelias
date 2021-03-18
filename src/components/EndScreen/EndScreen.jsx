@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import GameHeader from '../GameHeader';
 import HomeScreen from '../HomeScreen/HomeScreen';
 import playAgainIcon from '../../assets/replay.svg';
@@ -58,3 +59,11 @@ export default function EndScreen({ playAgain }) {
     </div>
   );
 }
+
+EndScreen.propTypes = {
+  playAgain: PropTypes.func.isRequired,
+};
+
+EndScreen.defaultProps = {
+  playAgain: () => {},
+};

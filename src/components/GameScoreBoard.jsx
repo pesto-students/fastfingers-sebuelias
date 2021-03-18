@@ -14,12 +14,15 @@ export default function GameScoreBoard() {
   const currentUserScoresArray = currentUserScores.trim().split(' ');
 
   const highestScore = getHighScore();
+  console.log(highestScore);
   const scoreBoardContent = currentUserScores ? (
     <ul className='score-list'>
       {currentUserScoresArray.map((score, index) => (
         <li
           key={index}
-          className={`score ${highestScore == score ? 'highest-score' : ''}`}
+          className={`score ${
+            highestScore === Number(score) ? 'highest-score' : ''
+          }`}
         >
           {`Game ${index + 1} : ${score}`}
         </li>

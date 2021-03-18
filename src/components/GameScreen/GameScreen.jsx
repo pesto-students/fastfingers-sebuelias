@@ -21,7 +21,7 @@ export default function GameScreen() {
   const difficultySelected = sessionStorage.getItem(
     sessionStorageKeys.SELECTED_DIFFICULTY,
   );
-  /* We cab update this difficulty for the session */
+  /* We can update DIFFICULTY for the current game, and maintain SELECTED_DIFFICULTY */
   sessionStorage.setItem(sessionStorageKeys.DIFFICULTY, difficultySelected);
   const [difficulty, setDifficulty] = useState(difficultySelected);
   const difficultyFactor = useRef(difficultyFactorUtil[difficulty]);

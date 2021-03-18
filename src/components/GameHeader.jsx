@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import GamePad from '../assets/gamepad.svg';
 import UserIcons from '../assets/user.svg';
 import './Styles.css';
-import { sessionStorageKeys } from '../util';
+import { sessionStorageKeys, difficultyUtil } from '../util';
 import PropTypes from 'prop-types';
 
 export default function GameHeader({ difficulty, isGameOver }) {
@@ -53,4 +53,5 @@ GameHeader.propTypes = {
 
 GameHeader.defaultProps = {
   isGameOver: false,
+  difficulty: difficultyUtil.EASY,
 };
