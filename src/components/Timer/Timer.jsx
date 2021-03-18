@@ -34,7 +34,6 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     }, 1);
   };
 
-  // !Questionable score logic, need to check
   const updateScore = () => {
     const timeTakenForWord = Math.floor(timeinMillisec - remainingTime);
     const timeTakenInSeconds = Number((timeTakenForWord / 1000).toFixed(2));

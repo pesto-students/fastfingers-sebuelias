@@ -3,9 +3,7 @@ export const secondsToMilliseconds = (seconds) => {
 };
 
 const FULL_DASH_ARRAY = 283;
-// Warning occurs at 50%
 const WARNING_THRESHOLD = 50;
-// Alert occurs at 25%
 const ALERT_THRESHOLD = 25;
 
 const COLOR_CODES = {
@@ -36,7 +34,6 @@ export const formatTimeLeft = (time) => {
   return `${seconds}:${milliseconds}`;
 };
 
-// Update the dasharray value as time passes, starting with 283
 export const calculateCircleDasharray = (duration, remainingTime) => {
   return `${(
     calculateTimeFraction(duration, remainingTime) * FULL_DASH_ARRAY
@@ -46,7 +43,6 @@ export const calculateCircleDasharray = (duration, remainingTime) => {
 const calculateTimeFraction = (duration, remainingTime) => {
   const fraction = remainingTime / duration;
   return fraction - (1 / duration) * (1 - fraction);
-  // return fraction;
 };
 
 export const calculateRemainingPathColor = (duration, timeLeft) => {
