@@ -16,7 +16,6 @@ export default function GameScoreBoard() {
     : null;
 
   const highestScore = getHighScore();
-  console.log(highestScore);
   const scoreBoardContent = currentUserScores ? (
     <ul className='score-list'>
       {currentUserScoresArray.map((score, index) => (

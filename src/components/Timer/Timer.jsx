@@ -26,7 +26,6 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
   let timerInterval = null;
 
   const startTimer = () => {
-    console.log('timer');
     timerInterval = setInterval(() => {
       if (remainingTime > 0) {
         setRemainingTime((prevRemainingTime) => prevRemainingTime - 2);
