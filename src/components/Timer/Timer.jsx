@@ -34,6 +34,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     }, 1);
   };
 
+  // !Questionable score logic, need to check
   const updateScore = () => {
     const timeTakenForWord = Math.floor(timeinMillisec - remainingTime);
     const timeTakenInSeconds = Number((timeTakenForWord / 1000).toFixed(2));
@@ -51,6 +52,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
     setNewTimeAndResetTimer(duration);
     startTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [difficultyFactor]);
 
   useEffect(() => {
@@ -64,6 +66,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
       setNewTimeAndResetTimer(0);
       onTimeOut();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remainingTime]);
 
   useEffect(() => {
@@ -75,6 +78,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     return () => {
       setNewTimeAndResetTimer(0);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

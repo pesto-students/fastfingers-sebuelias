@@ -86,7 +86,7 @@ export default function GameScreen() {
     ) {
       onInputCorrectWord();
     }
-  }, [userInput]);
+  });
 
   const gameOver = () => {
     const currentScore =

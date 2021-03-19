@@ -29,6 +29,9 @@
 }
 
 .scoreboard-container {
+  border: 1px solid var(--lightRed);
+  border-radius: 15px;
+  height: 100%;
 }
 
 .score-list {

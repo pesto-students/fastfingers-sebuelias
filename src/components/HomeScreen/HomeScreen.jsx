@@ -47,7 +47,7 @@ export default function HomeScreen() {
     if (userNameRef.current) {
       userNameRef.current.focus();
     }
-  }, []);
+  }, [userNameRef]);
 
   return isPlaying ? (
     <GameScreen />
