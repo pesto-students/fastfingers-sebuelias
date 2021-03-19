@@ -11,7 +11,9 @@ export default function GameScoreBoard() {
     getNameOfCurrentUserScores(userName),
   );
 
-  const currentUserScoresArray = currentUserScores.trim().split(' ');
+  const currentUserScoresArray = currentUserScores
+    ? currentUserScores.trim().split(' ')
+    : null;
 
   const highestScore = getHighScore();
   console.log(highestScore);

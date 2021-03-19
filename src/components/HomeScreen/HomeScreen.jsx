@@ -43,7 +43,6 @@ export default function HomeScreen() {
   };
 
   useEffect(() => {
-    sessionStorage.clear();
     if (userNameRef.current) {
       userNameRef.current.focus();
     }
