@@ -31,5 +31,6 @@
   border-radius: 15px;
 }
 
-.game-content {
+.game-scoreboard {
+  height: 100%;
 }

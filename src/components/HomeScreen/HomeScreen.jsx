@@ -34,6 +34,7 @@ export default function HomeScreen() {
 
   const onPlayClick = () => {
     if (userName) {
+      sessionStorage.clear();
       initSessionStorage(userName, difficulty);
       setIsPlaying(true);
     } else {

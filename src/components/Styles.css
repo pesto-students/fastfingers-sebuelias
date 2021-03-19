@@ -32,16 +32,27 @@
   border: 1px solid var(--lightRed);
   border-radius: 15px;
   height: 100%;
+  padding: 0 15%;
 }
 
 .score-list {
-  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
 }
 
 .score {
-  text-decoration: none;
+  color: var(--white);
+  margin-bottom: 0.6rem;
 }
-
 .highest-score {
-  color: blue;
+  position: relative;
+}
+.highest-score::before {
+  position: absolute;
+  content: 'PERSONAL BEST';
+  color: var(--lightRed);
+  line-height: 1.18;
+  font-size: 0.5rem;
+  bottom: 90%;
 }
