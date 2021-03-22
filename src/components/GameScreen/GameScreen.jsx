@@ -42,6 +42,7 @@ export default function GameScreen() {
 
   const reInitialise = () => {
     sessionStorage.setItem(sessionStorageKeys.DIFFICULTY, difficultySelected);
+    sessionStorage.removeItem(sessionStorageKeys.CURRENT_SCORE);
     setDifficulty(difficultySelected);
     difficultyFactor.current = difficultyFactorUtil[difficulty];
     setUserInput('');
@@ -126,28 +127,28 @@ export default function GameScreen() {
           </button>
         </aside>
 
-        <div className='game-content'>
-          <Timer
-            duration={duration}
-            difficultyFactor={difficultyFactor.current}
-            onTimeOut={gameOver}
-          />
-
-          <div className='game-word'>
-            <GameWord currentWord={randomWord} currentInput={userInput} />
+        {!isPlaying ? null : (
+          <div className='game-content'>
+            <Timer
+              duration={duration}
+              difficultyFactor={difficultyFactor.current}
+              onTimeOut={gameOver}
+            />
+            <div className='game-word'>
+              <GameWord currentWord={randomWord} currentInput={userInput} />
+            </div>
+            <input
+              className='game-input user-input user-input-text'
+              type='text'
+              value={userInput}
+              onChange={(event) => {
+                setUserInput(event.target.value);
+              }}
+              ref={gameInputRef}
+              required
+            />
           </div>
-
-          <input
-            className='game-input user-input user-input-text'
-            type='text'
-            value={userInput}
-            onChange={(event) => {
-              setUserInput(event.target.value);
-            }}
-            ref={gameInputRef}
-            required
-          />
-        </div>
+        )}
       </section>
     </main>
   );

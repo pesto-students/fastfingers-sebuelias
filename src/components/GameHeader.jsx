@@ -1,19 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import GamePad from '../assets/gamepad.svg';
 import UserIcons from '../assets/user.svg';
 import './Styles.css';
-import { sessionStorageKeys, difficultyUtil } from '../util';
+import { sessionStorageKeys, difficultyUtil, formatScore } from '../util';
 import PropTypes from 'prop-types';
 
 export default function GameHeader({ difficulty, isGameOver }) {
   const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  const currentScore =
-    sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0;
+  const [currentScore, setCurrentScore] = useState(
+    sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0,
+  );
+
+  let scoreTImer = null;
+  const startScoreTimer = () => {
+    scoreTImer = setInterval(
+      () => setCurrentScore((prevScore) => prevScore + 1),
+      1000,
+    );
+  };
 
   useEffect(() => {
+    sessionStorage.setItem(
+      sessionStorageKeys.CURRENT_SCORE,
+      formatScore(currentScore),
+    );
+  }, [currentScore]);
+
+  useEffect(() => {
+    if (!isGameOver) {
+      startScoreTimer();
+    }
+
     return () => {
-      sessionStorage.removeItem(sessionStorageKeys.CURRENT_SCORE);
+      clearTimeout(scoreTImer);
+      sessionStorage.setItem(
+        sessionStorageKeys.CURRENT_SCORE,
+        formatScore(currentScore),
+      );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -40,7 +65,7 @@ export default function GameHeader({ difficulty, isGameOver }) {
 
       <div className='game-current-score'>
         <div>fast fingers</div>
-        {isGameOver ? null : <div>SCORE: {currentScore}</div>}
+        {isGameOver ? null : <div>SCORE: {formatScore(currentScore)}</div>}
       </div>
     </header>
   );

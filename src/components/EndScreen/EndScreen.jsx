@@ -11,8 +11,9 @@ export default function EndScreen({ playAgain }) {
 
   const [isNewGame, setIsNewGame] = useState(false);
 
-  const currentScore =
-    Number(sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE)) ?? 0;
+  const currentScore = Number(
+    sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE),
+  );
 
   const quitGame = () => {
     sessionStorage.clear();

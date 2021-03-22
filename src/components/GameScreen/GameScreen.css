@@ -10,6 +10,10 @@
   width: 100%;
   justify-content: flex-start;
   align-items: center;
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%);
 }
 
 .game-sidebar {

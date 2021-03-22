@@ -19,18 +19,11 @@ export default function HomeScreen() {
   const [userName, setUserName] = useState('');
   const [difficulty, setDifficulty] = useState(difficultyUtil.EASY);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [userNamePlaceHolder, setUserNamePlaceHolder] = useState(
-    'type your name',
-  );
+  const [showUserNameRequired, setShowUserNameRequired] = useState(false);
 
   const userNameRef = React.createRef();
 
-  let requiredCssClass = null;
-  if (userNamePlaceHolder === 'type your name') {
-    requiredCssClass = '';
-  } else {
-    requiredCssClass = 'required';
-  }
+  let requiredCssClass = 'required';
 
   const onPlayClick = () => {
     if (userName) {
@@ -38,8 +31,8 @@ export default function HomeScreen() {
       initSessionStorage(userName, difficulty);
       setIsPlaying(true);
     } else {
-      setUserNamePlaceHolder('name required');
       userNameRef.current.focus();
+      setShowUserNameRequired(true);
     }
   };
 
@@ -62,12 +55,16 @@ export default function HomeScreen() {
       </div>
 
       <div className='home-screen-user-info'>
+        {showUserNameRequired ? <span>Name Required </span> : <br />}
         <input
           type='text'
-          className={`user-input user-input-text uppercase ${requiredCssClass}`}
+          className={`user-input user-input-text uppercase ${
+            showUserNameRequired ? requiredCssClass : ''
+          }`}
           value={userName}
-          placeholder={userNamePlaceHolder}
+          placeholder={'type your name'}
           onChange={(event) => {
+            setShowUserNameRequired(false);
             setUserName(event.target.value);
           }}
           ref={userNameRef}

@@ -40,6 +40,13 @@ export const updateDifficultyWithDifficultyFactor = (difficultyFactor) => {
   return calculatedDifficulty;
 };
 
+export const formatScore = (score) => {
+  let minutes = parseInt(score / 60);
+  let seconds = parseInt(score % 60);
+  const finalScore = `${minutes}.${seconds}`;
+  return finalScore;
+};
+
 export const getHighScore = () => {
   const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
   const scores = sessionStorage.getItem(getNameOfCurrentUserScores(userName));
