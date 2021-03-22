@@ -9,6 +9,8 @@ import {
   formatTimeLeft,
 } from './TimerUtil';
 
+let timerInterval = null;
+
 export default function Timer({ duration, difficultyFactor, onTimeOut }) {
   const timeinMillisec = secondsToMilliseconds(duration);
   const [remainingTime, setRemainingTime] = useState(timeinMillisec);
@@ -20,30 +22,32 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     calculateRemainingPathColor(timeinMillisec, remainingTime),
   );
 
-  let timerInterval = null;
-
   const startTimer = () => {
-    console.log('timer');
     timerInterval = setInterval(() => {
-      if (remainingTime > 0) {
-        setRemainingTime((prevRemainingTime) => prevRemainingTime - 5);
-      }
-    }, 5);
+      setRemainingTime((prevRemainingTime) => prevRemainingTime - 1);
+    }, 1);
   };
 
   const setNewTimeAndResetTimer = (newTime) => {
+    clearInterval(timerInterval);
     setRemainingTime(secondsToMilliseconds(newTime));
-    if (timerInterval) {
-      clearInterval(timerInterval);
-    }
   };
 
   useEffect(() => {
-    setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
-    setNewTimeAndResetTimer(duration);
-    startTimer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [difficultyFactor]);
+    return () => {
+      setNewTimeAndResetTimer(0);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (remainingTime === timeinMillisec) {
+      setCircleDasharray(
+        calculateCircleDasharray(timeinMillisec, remainingTime),
+      );
+      setNewTimeAndResetTimer(duration);
+      startTimer();
+    }
+  }, [difficultyFactor, duration, timeinMillisec, remainingTime]);
 
   useEffect(() => {
     setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
@@ -55,20 +59,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
       setNewTimeAndResetTimer(0);
       onTimeOut();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [remainingTime]);
-
-  useEffect(() => {
-    // if (remainingTime <= 0) {
-    //   setNewTimeAndResetTimer(0);
-    // } else {
-    //   startTimer();
-    // }
-    return () => {
-      setNewTimeAndResetTimer(0);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [remainingTime, onTimeOut, timeinMillisec]);
 
   return (
     <div className='base-timer'>

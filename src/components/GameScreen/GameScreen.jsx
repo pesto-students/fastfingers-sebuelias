@@ -93,10 +93,19 @@ export default function GameScreen() {
     const currentScore =
       sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0;
     currentUserScores = `${currentUserScores} ${currentScore}`;
-    sessionStorage.setItem(
-      getNameOfCurrentUserScores(userName),
-      currentUserScores,
-    );
+
+    const currentUserScoresArray = currentUserScores
+      ? currentUserScores.trim().split(' ')
+      : null;
+
+    let tokens = currentUserScores.split(' ');
+    if (tokens.length > 10) {
+      let lengthToCut = tokens.length - 10;
+      tokens = tokens.slice(lengthToCut);
+    }
+    let result = tokens.join(' ');
+
+    sessionStorage.setItem(getNameOfCurrentUserScores(userName), result);
 
     setIsPlaying(false);
   };
@@ -142,7 +151,7 @@ export default function GameScreen() {
               type='text'
               value={userInput}
               onChange={(event) => {
-                setUserInput(event.target.value);
+                setUserInput(event.target.value.toUpperCase());
               }}
               ref={gameInputRef}
               required

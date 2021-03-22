@@ -29,6 +29,8 @@ export default function GameHeader({ difficulty, isGameOver }) {
   useEffect(() => {
     if (!isGameOver) {
       startScoreTimer();
+    } else {
+      // clearTimeout(scoreTImer);
     }
 
     return () => {

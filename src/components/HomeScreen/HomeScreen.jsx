@@ -55,7 +55,6 @@ export default function HomeScreen() {
       </div>
 
       <div className='home-screen-user-info'>
-        {showUserNameRequired ? <span>Name Required </span> : <br />}
         <input
           type='text'
           className={`user-input user-input-text uppercase ${
@@ -70,6 +69,7 @@ export default function HomeScreen() {
           ref={userNameRef}
           required
         />
+        {showUserNameRequired ? <span>Name Required </span> : <br />}
 
         <select
           className='user-input game-difficulty uppercase'
