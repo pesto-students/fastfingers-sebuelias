@@ -60,7 +60,7 @@ export default function GameScreen() {
     }
     return revisedDifficulty;
   };
-
+  // eslint-disable-next-line
   const onInputCorrectWord = useCallback(() => {
     console.log('new word');
     const revisedDifficulty = updateDifficultyFactor();

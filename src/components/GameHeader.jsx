@@ -32,6 +32,7 @@ export default function GameHeader({ difficulty, isGameOver }) {
     } else {
       clearTimeout(scoreTImer);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGameOver]);
 
   useEffect(() => {
