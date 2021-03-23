@@ -30,9 +30,11 @@ export default function GameHeader({ difficulty, isGameOver }) {
     if (!isGameOver) {
       startScoreTimer();
     } else {
-      // clearTimeout(scoreTImer);
+      clearTimeout(scoreTImer);
     }
+  }, [isGameOver]);
 
+  useEffect(() => {
     return () => {
       clearTimeout(scoreTImer);
       sessionStorage.setItem(

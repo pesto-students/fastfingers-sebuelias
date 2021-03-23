@@ -24,7 +24,7 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
 
   const startTimer = () => {
     timerInterval = setInterval(() => {
-      setRemainingTime((prevRemainingTime) => prevRemainingTime - 1);
+      setRemainingTime((prevRemainingTime) => prevRemainingTime - 2);
     }, 1);
   };
 
@@ -40,14 +40,10 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
   }, []);
 
   useEffect(() => {
-    if (remainingTime === timeinMillisec) {
-      setCircleDasharray(
-        calculateCircleDasharray(timeinMillisec, remainingTime),
-      );
-      setNewTimeAndResetTimer(duration);
-      startTimer();
-    }
-  }, [difficultyFactor, duration, timeinMillisec, remainingTime]);
+    // setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
+    setNewTimeAndResetTimer(duration);
+    startTimer();
+  }, [difficultyFactor, duration]);
 
   useEffect(() => {
     setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));

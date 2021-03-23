@@ -104,7 +104,7 @@ body {
 .button:focus,
 .button:hover {
   cursor: pointer;
-  box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.8);
+  /* box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.8); */
 }
 
 .button::before,

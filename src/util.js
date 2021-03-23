@@ -77,6 +77,10 @@ export const calculateDuration = (randomWord, difficultyFactor) => {
   if (durationCalculated < MIN_DURATION) {
     durationCalculated = MIN_DURATION;
   }
+  console.log('calc duration');
+  console.log(randomWord);
+  console.log(difficultyFactor);
+  console.log(durationCalculated);
   return durationCalculated;
 };
 

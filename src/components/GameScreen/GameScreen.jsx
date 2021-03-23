@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import GameWord from '../GameWord/GameWord';
 import EndScreen from '../EndScreen/EndScreen';
 import GameHeader from '../GameHeader';
@@ -61,12 +61,13 @@ export default function GameScreen() {
     return revisedDifficulty;
   };
 
-  const onInputCorrectWord = () => {
+  const onInputCorrectWord = useCallback(() => {
+    console.log('new word');
     const revisedDifficulty = updateDifficultyFactor();
     setRandomWord(getRandomWordForCurrentLevel(revisedDifficulty));
     setUserInput('');
     setDuration(calculateDuration(randomWord, difficultyFactor.current));
-  };
+  });
 
   useEffect(() => {
     if (gameInputRef.current) {
@@ -87,16 +88,12 @@ export default function GameScreen() {
     ) {
       onInputCorrectWord();
     }
-  });
+  }, [userInput, randomWord, onInputCorrectWord]);
 
   const gameOver = () => {
     const currentScore =
       sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0;
     currentUserScores = `${currentUserScores} ${currentScore}`;
-
-    const currentUserScoresArray = currentUserScores
-      ? currentUserScores.trim().split(' ')
-      : null;
 
     let tokens = currentUserScores.split(' ');
     if (tokens.length > 10) {
