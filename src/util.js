@@ -12,7 +12,7 @@ export const difficultyFactorUtil = {
   [difficultyUtil.HARD]: 2,
 };
 
-export const sessionStorageKeys = {
+export const localStorageKeys = {
   USERNAME: 'username',
   DIFFICULTY: 'difficulty',
   SELECTED_DIFFICULTY: 'selected_difficulty',
@@ -30,12 +30,10 @@ export const updateDifficultyWithDifficultyFactor = (difficultyFactor) => {
     calculatedDifficulty = difficultyUtil.HARD;
   }
 
-  const currentDifficulty = sessionStorage.getItem(
-    sessionStorageKeys.DIFFICULTY,
-  );
+  const currentDifficulty = localStorage.getItem(localStorageKeys.DIFFICULTY);
 
   if (calculatedDifficulty !== currentDifficulty) {
-    sessionStorage.setItem(sessionStorageKeys.DIFFICULTY, calculatedDifficulty);
+    localStorage.setItem(localStorageKeys.DIFFICULTY, calculatedDifficulty);
   }
   return calculatedDifficulty;
 };
@@ -54,8 +52,8 @@ export const formatScore = (score) => {
 };
 
 export const getHighScore = () => {
-  const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  const scores = sessionStorage.getItem(getNameOfCurrentUserScores(userName));
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
+  const scores = localStorage.getItem(getNameOfCurrentUserScores(userName));
   const scoresArray = scores ? scores.trim().split(' ') : [];
   if (scoresArray.length === 0) {
     return Number(0);
@@ -67,7 +65,7 @@ export const getHighScore = () => {
 };
 
 export const getNameOfCurrentUserScores = (userName) => {
-  return `${userName}_${sessionStorageKeys.SCORES}`;
+  return `${userName}_${localStorageKeys.SCORES}`;
 };
 
 const MIN_DURATION = 2;

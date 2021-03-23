@@ -42,7 +42,8 @@ export const calculateCircleDasharray = (duration, remainingTime) => {
 
 const calculateTimeFraction = (duration, remainingTime) => {
   const fraction = remainingTime / duration;
-  return fraction - (1 / duration) * (1 - fraction);
+  // return fraction - (1 / duration) * (1 - fraction);
+  return fraction;
 };
 
 export const calculateRemainingPathColor = (duration, timeLeft) => {

@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  sessionStorageKeys,
+  localStorageKeys,
   getNameOfCurrentUserScores,
   getHighScore,
 } from '../util';
 
 export default function GameScoreBoard() {
-  const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  const currentUserScores = sessionStorage.getItem(
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
+  const currentUserScores = localStorage.getItem(
     getNameOfCurrentUserScores(userName),
   );
 

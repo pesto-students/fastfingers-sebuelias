@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import GamePad from '../assets/gamepad.svg';
 import UserIcons from '../assets/user.svg';
 import './Styles.css';
-import { sessionStorageKeys, difficultyUtil, formatScore } from '../util';
+import { localStorageKeys, difficultyUtil, formatScore } from '../util';
 import PropTypes from 'prop-types';
 
 export default function GameHeader({ difficulty, isGameOver }) {
-  const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
   const [currentScore, setCurrentScore] = useState(
-    sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0,
+    localStorage.getItem(localStorageKeys.CURRENT_SCORE) ?? 0,
   );
 
   let scoreTImer = null;
@@ -20,8 +20,8 @@ export default function GameHeader({ difficulty, isGameOver }) {
   };
 
   useEffect(() => {
-    sessionStorage.setItem(
-      sessionStorageKeys.CURRENT_SCORE,
+    localStorage.setItem(
+      localStorageKeys.CURRENT_SCORE,
       formatScore(currentScore),
     );
   }, [currentScore]);
@@ -38,8 +38,8 @@ export default function GameHeader({ difficulty, isGameOver }) {
   useEffect(() => {
     return () => {
       clearTimeout(scoreTImer);
-      sessionStorage.setItem(
-        sessionStorageKeys.CURRENT_SCORE,
+      localStorage.setItem(
+        localStorageKeys.CURRENT_SCORE,
         formatScore(currentScore),
       );
     };
@@ -70,7 +70,12 @@ export default function GameHeader({ difficulty, isGameOver }) {
 
       <div className='game-current-score'>
         <div>fast fingers</div>
-        {isGameOver ? null : <div>SCORE: {formatScore(currentScore)}</div>}
+        {isGameOver ? null : (
+          <div>
+            <span>SCORE: </span>
+            <span>{formatScore(currentScore)}</span>
+          </div>
+        )}
       </div>
     </header>
   );

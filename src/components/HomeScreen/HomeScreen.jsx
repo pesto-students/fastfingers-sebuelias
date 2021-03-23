@@ -6,13 +6,13 @@ import GameScreen from '../GameScreen/GameScreen';
 import {
   difficultyUtil,
   getNameOfCurrentUserScores,
-  sessionStorageKeys,
+  localStorageKeys,
 } from '../../util';
 
-const initSessionStorage = (userName, difficulty) => {
-  sessionStorage.setItem(sessionStorageKeys.USERNAME, userName);
-  sessionStorage.setItem(sessionStorageKeys.SELECTED_DIFFICULTY, difficulty);
-  sessionStorage.setItem(getNameOfCurrentUserScores(userName), '');
+const initlocalStorage = (userName, difficulty) => {
+  localStorage.setItem(localStorageKeys.USERNAME, userName);
+  localStorage.setItem(localStorageKeys.SELECTED_DIFFICULTY, difficulty);
+  localStorage.setItem(getNameOfCurrentUserScores(userName), '');
 };
 
 export default function HomeScreen() {
@@ -20,6 +20,7 @@ export default function HomeScreen() {
   const [difficulty, setDifficulty] = useState(difficultyUtil.EASY);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showUserNameRequired, setShowUserNameRequired] = useState(false);
+  const [isSameUser, setIsSameUser] = useState(false);
 
   const userNameRef = React.createRef();
 
@@ -27,20 +28,43 @@ export default function HomeScreen() {
 
   const onPlayClick = () => {
     if (userName) {
-      sessionStorage.clear();
-      initSessionStorage(userName, difficulty);
+      localStorage.clear();
+      initlocalStorage(userName, difficulty);
       setIsPlaying(true);
     } else {
-      userNameRef.current.focus();
-      setShowUserNameRequired(true);
+      if (userNameRef.current) {
+        userNameRef.current.focus();
+        setShowUserNameRequired(true);
+      }
     }
   };
 
   useEffect(() => {
+    const lastUserName = localStorage.getItem(localStorageKeys.USERNAME);
+    // const lastDifficulty = localStorage.getItem(
+    //   localStorageKeys.SELECTED_DIFFICULTY,
+    // );
     if (userNameRef.current) {
       userNameRef.current.focus();
     }
-  }, [userNameRef]);
+    if (lastUserName) {
+      setUserName(lastUserName);
+      // setDifficulty(lastDifficulty);
+      setIsSameUser(true);
+    }
+
+    return () => {
+      // localStorage.clear();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isSameUser) {
+      if (userNameRef.current) {
+        userNameRef.current.focus();
+      }
+    }
+  }, [isSameUser, userNameRef]);
 
   return isPlaying ? (
     <GameScreen />
@@ -55,22 +79,44 @@ export default function HomeScreen() {
       </div>
 
       <div className='home-screen-user-info'>
-        <input
-          type='text'
-          className={`user-input user-input-text uppercase ${
-            showUserNameRequired ? requiredCssClass : ''
-          }`}
-          value={userName}
-          placeholder={'type your name'}
-          onChange={(event) => {
-            setShowUserNameRequired(false);
-            setUserName(event.target.value);
-          }}
-          ref={userNameRef}
-          required
-        />
-        {showUserNameRequired ? <span>Name Required </span> : <br />}
-
+        {!isSameUser ? (
+          <div>
+            <input
+              type='text'
+              className={`user-input user-input-text uppercase ${
+                showUserNameRequired ? requiredCssClass : ''
+              }`}
+              value={userName}
+              placeholder={'type your name'}
+              onChange={(event) => {
+                setShowUserNameRequired(false);
+                setUserName(event.target.value);
+              }}
+              ref={userNameRef}
+              required
+            />
+            {showUserNameRequired ? (
+              <p className='name-req'>Name Required </p>
+            ) : (
+              <p className='name-req' />
+            )}
+          </div>
+        ) : (
+          <div className='welcome-back'>
+            <p>Welcome back</p>
+            <p className='username'>{userName.toUpperCase()}</p>
+            <p
+              className='change-user'
+              onClick={() => {
+                setIsSameUser(false);
+                setUserName('');
+                localStorage.clear();
+              }}
+            >
+              Not you?
+            </p>
+          </div>
+        )}
         <select
           className='user-input game-difficulty uppercase'
           value={difficulty}

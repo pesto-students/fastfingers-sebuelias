@@ -24,8 +24,8 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
 
   const startTimer = () => {
     timerInterval = setInterval(() => {
-      setRemainingTime((prevRemainingTime) => prevRemainingTime - 2);
-    }, 1);
+      setRemainingTime((prevRemainingTime) => prevRemainingTime - 10);
+    }, 10);
   };
 
   const setNewTimeAndResetTimer = (newTime) => {

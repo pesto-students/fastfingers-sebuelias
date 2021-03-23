@@ -11,22 +11,22 @@ import {
   difficultyFactorUtil,
   getNameOfCurrentUserScores,
   calculateDuration,
-  sessionStorageKeys,
+  localStorageKeys,
   updateDifficultyWithDifficultyFactor,
 } from '../../util';
 
 const DIFFICULTY_INCREAMENT_FACTOR = 0.01;
 
 export default function GameScreen() {
-  const difficultySelected = sessionStorage.getItem(
-    sessionStorageKeys.SELECTED_DIFFICULTY,
+  const difficultySelected = localStorage.getItem(
+    localStorageKeys.SELECTED_DIFFICULTY,
   );
 
-  sessionStorage.setItem(sessionStorageKeys.DIFFICULTY, difficultySelected);
+  localStorage.setItem(localStorageKeys.DIFFICULTY, difficultySelected);
   const [difficulty, setDifficulty] = useState(difficultySelected);
   const difficultyFactor = useRef(difficultyFactorUtil[difficulty]);
-  const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  let currentUserScores = sessionStorage.getItem(
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
+  let currentUserScores = localStorage.getItem(
     getNameOfCurrentUserScores(userName),
   );
   const gameInputRef = React.createRef();
@@ -41,8 +41,8 @@ export default function GameScreen() {
   const [isPlaying, setIsPlaying] = useState(true);
 
   const reInitialise = () => {
-    sessionStorage.setItem(sessionStorageKeys.DIFFICULTY, difficultySelected);
-    sessionStorage.removeItem(sessionStorageKeys.CURRENT_SCORE);
+    localStorage.setItem(localStorageKeys.DIFFICULTY, difficultySelected);
+    localStorage.removeItem(localStorageKeys.CURRENT_SCORE);
     setDifficulty(difficultySelected);
     difficultyFactor.current = difficultyFactorUtil[difficulty];
     setUserInput('');
@@ -62,11 +62,11 @@ export default function GameScreen() {
   };
   // eslint-disable-next-line
   const onInputCorrectWord = useCallback(() => {
-    console.log('new word');
     const revisedDifficulty = updateDifficultyFactor();
-    setRandomWord(getRandomWordForCurrentLevel(revisedDifficulty));
+    const newWord = getRandomWordForCurrentLevel(revisedDifficulty);
+    setRandomWord(newWord);
     setUserInput('');
-    setDuration(calculateDuration(randomWord, difficultyFactor.current));
+    setDuration(calculateDuration(newWord, difficultyFactor.current));
   });
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function GameScreen() {
 
   useEffect(() => {
     return () => {
-      sessionStorage.removeItem(sessionStorageKeys.CURRENT_SCORE);
+      localStorage.removeItem(localStorageKeys.CURRENT_SCORE);
     };
   }, []);
 
@@ -92,7 +92,7 @@ export default function GameScreen() {
 
   const gameOver = () => {
     const currentScore =
-      sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0;
+      localStorage.getItem(localStorageKeys.CURRENT_SCORE) ?? 0;
     currentUserScores = `${currentUserScores} ${currentScore}`;
 
     let tokens = currentUserScores.split(' ');
@@ -102,7 +102,7 @@ export default function GameScreen() {
     }
     let result = tokens.join(' ');
 
-    sessionStorage.setItem(getNameOfCurrentUserScores(userName), result);
+    localStorage.setItem(getNameOfCurrentUserScores(userName), result);
 
     setIsPlaying(false);
   };

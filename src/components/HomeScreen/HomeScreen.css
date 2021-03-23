@@ -1,6 +1,3 @@
-.home-screen-container {
-}
-
 .home-screen-elements {
   display: flex;
   flex-direction: column;
@@ -16,11 +13,43 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  margin-bottom: 2rem;
 }
 
-.home-screen-user-info span {
+.name-req {
   text-align: left;
   width: 100%;
+  margin: 0;
+  height: 2rem;
+}
+
+.welcome-back {
+  width: 100%;
+}
+
+.welcome-back p {
+  font-size: 2rem;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.username {
+  font-size: 2.5rem;
+  color: var(--white);
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.welcome-back .change-user {
+  font-size: 1rem;
+  color: var(--white);
+  text-align: right;
+  margin-bottom: 1rem;
+}
+.welcome-back .change-user:hover {
+  cursor: pointer;
+  color: var(--rightChar);
 }
 
 .home-screen-title {
