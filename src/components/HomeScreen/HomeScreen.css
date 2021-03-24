@@ -13,7 +13,8 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
+  position: relative;
 }
 
 .name-req {
@@ -34,7 +35,7 @@
   text-align: left;
 }
 
-.username {
+p.username {
   font-size: 2.5rem;
   color: var(--white);
   font-weight: bold;
@@ -43,13 +44,18 @@
 
 .welcome-back .change-user {
   font-size: 1rem;
-  color: var(--white);
+  color: var(--coolGrey);
   text-align: right;
-  margin-bottom: 1rem;
+  width: fit-content;
+  position: absolute;
+  right: 0;
+  bottom: 4.5rem;
+  color: var(--coolGrey);
+  text-align: right;
 }
 .welcome-back .change-user:hover {
   cursor: pointer;
-  color: var(--rightChar);
+  color: var(--white);
 }
 
 .home-screen-title {
@@ -98,6 +104,9 @@
   color: var(--coolGrey);
   font-size: 2rem;
   width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .game-difficulty select {
@@ -108,6 +117,26 @@
   position: relative;
   z-index: 10;
   font-size: 1em;
+}
+
+select + i.fa {
+  position: absolute;
+  /* this is so when you click on the chevron, your click actually goes on the dropdown menu */
+  pointer-events: none;
+  /* everything after this is just to cover up the original arrow */
+  /* (for browsers that don't support the syntax used above) */
+  background-color: transparent;
+  color: var(--white);
+  bottom: 1.5rem;
+  right: 1rem;
+}
+
+select option {
+  padding-right: 21px;
+}
+
+select::-ms-expand {
+  display: none;
 }
 
 .start-button {

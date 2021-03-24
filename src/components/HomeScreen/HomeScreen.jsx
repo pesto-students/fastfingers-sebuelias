@@ -132,6 +132,7 @@ export default function HomeScreen() {
           <option value={difficultyUtil.MEDIUM}>{difficultyUtil.MEDIUM}</option>
           <option value={difficultyUtil.HARD}>{difficultyUtil.HARD}</option>
         </select>
+        <i class='fa fa-chevron-down'></i>
       </div>
 
       <button className='start-button button uppercase' onClick={onPlayClick}>

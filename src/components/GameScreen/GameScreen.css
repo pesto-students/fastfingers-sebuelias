@@ -16,6 +16,36 @@
   transform: translate(-50%);
 }
 
+.vanish-content {
+  display: flex;
+  flex-direction: column;
+  font-size: 3rem;
+  color: var(--white);
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.vanish-content.vanish {
+  opacity: 1;
+  animation: fade 1s linear;
+}
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .game-sidebar {
   display: flex;
   flex-direction: column;

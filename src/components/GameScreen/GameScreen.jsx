@@ -13,24 +13,19 @@ import {
   calculateDuration,
   localStorageKeys,
   updateDifficultyWithDifficultyFactor,
+  generateRandomVanishText,
 } from '../../util';
 
 const DIFFICULTY_INCREAMENT_FACTOR = 0.01;
+const HANDS_READY_TEXT = 'Hands on the keyboard';
 
 export default function GameScreen() {
   const difficultySelected = localStorage.getItem(
     localStorageKeys.SELECTED_DIFFICULTY,
   );
 
-  localStorage.setItem(localStorageKeys.DIFFICULTY, difficultySelected);
   const [difficulty, setDifficulty] = useState(difficultySelected);
   const difficultyFactor = useRef(difficultyFactorUtil[difficulty]);
-  const userName = localStorage.getItem(localStorageKeys.USERNAME);
-  let currentUserScores = localStorage.getItem(
-    getNameOfCurrentUserScores(userName),
-  );
-  const gameInputRef = React.createRef();
-
   const [userInput, setUserInput] = useState('');
   const [randomWord, setRandomWord] = useState(
     getRandomWordForCurrentLevel(difficulty),
@@ -39,6 +34,16 @@ export default function GameScreen() {
     calculateDuration(randomWord, difficultyFactor.current),
   );
   const [isPlaying, setIsPlaying] = useState(true);
+  const [showVanishingText, setShowVanishingText] = useState(true);
+  const [vanishingText, setVanishingText] = useState(HANDS_READY_TEXT);
+
+  const gameInputRef = React.createRef();
+
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
+  let currentUserScores = localStorage.getItem(
+    getNameOfCurrentUserScores(userName),
+  );
+  localStorage.setItem(localStorageKeys.DIFFICULTY, difficultySelected);
 
   const reInitialise = () => {
     localStorage.setItem(localStorageKeys.DIFFICULTY, difficultySelected);
@@ -46,6 +51,7 @@ export default function GameScreen() {
     setDifficulty(difficultySelected);
     difficultyFactor.current = difficultyFactorUtil[difficulty];
     setUserInput('');
+    setVanishingText(HANDS_READY_TEXT);
     setRandomWord(getRandomWordForCurrentLevel(difficulty));
     setDuration(calculateDuration(randomWord, difficultyFactor.current));
   };
@@ -60,6 +66,7 @@ export default function GameScreen() {
     }
     return revisedDifficulty;
   };
+
   // eslint-disable-next-line
   const onInputCorrectWord = useCallback(() => {
     const revisedDifficulty = updateDifficultyFactor();
@@ -67,6 +74,11 @@ export default function GameScreen() {
     setRandomWord(newWord);
     setUserInput('');
     setDuration(calculateDuration(newWord, difficultyFactor.current));
+    setShowVanishingText(true);
+    setVanishingText(generateRandomVanishText());
+    setTimeout(() => {
+      setShowVanishingText(false);
+    }, 1000);
   });
 
   useEffect(() => {
@@ -76,6 +88,9 @@ export default function GameScreen() {
   });
 
   useEffect(() => {
+    setTimeout(() => {
+      setShowVanishingText(false);
+    }, 1000);
     return () => {
       localStorage.removeItem(localStorageKeys.CURRENT_SCORE);
     };
@@ -133,7 +148,7 @@ export default function GameScreen() {
           </button>
         </aside>
 
-        {!isPlaying ? null : (
+        {!isPlaying ? null : !showVanishingText ? (
           <div className='game-content'>
             <Timer
               duration={duration}
@@ -153,6 +168,12 @@ export default function GameScreen() {
               ref={gameInputRef}
               required
             />
+          </div>
+        ) : (
+          <div
+            className={`vanish-content ${showVanishingText ? 'vanish' : null}`}
+          >
+            {vanishingText}
           </div>
         )}
       </section>

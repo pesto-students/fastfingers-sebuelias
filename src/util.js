@@ -1,4 +1,5 @@
 import DictionaryFile from './assets/data/dictionary.json';
+import VanishingText from './assets/data/VanishingText.json';
 
 export const difficultyUtil = {
   EASY: 'EASY',
@@ -75,11 +76,13 @@ export const calculateDuration = (randomWord, difficultyFactor) => {
   if (durationCalculated < MIN_DURATION) {
     durationCalculated = MIN_DURATION;
   }
-  console.log('calc duration');
-  console.log(randomWord);
-  console.log(difficultyFactor);
-  console.log(durationCalculated);
   return durationCalculated;
+};
+
+export const generateRandomVanishText = () => {
+  const VanishingTextArray = VanishingText;
+  const randomIndex = getRandomIndex(VanishingTextArray.length);
+  return VanishingTextArray[randomIndex];
 };
 
 const getRandomIndex = (arrayLength) => {
