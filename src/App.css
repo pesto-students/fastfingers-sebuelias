@@ -1,5 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+  font-family: 'KnewaveRegular';
+  src: url('./assets/knewave-webfont.woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 *,
 *:before,
@@ -20,16 +26,16 @@
   background-size: auto;
   background-repeat: no-repeat;
   object-fit: contain;
-  font-family: 'Poppins', 'Lato', sans-serif;
+  font-family: 'KnewaveRegular', sans-serif;
 }
 
 html {
   height: 100%;
   overflow: auto;
 }
+
 body {
   min-height: 100%;
-
   overflow: auto;
   position: absolute;
   top: 0;
@@ -37,15 +43,6 @@ body {
   right: 0;
   left: 0;
 }
-/* body {
-  background-image: url('./assets/background.svg'),
-    linear-gradient(to top, #063c47, #000000);
-  background-blend-mode: multiply;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-} */
 
 .App {
   width: 100%;
@@ -59,6 +56,8 @@ body {
 }
 
 .uppercase {
+  font-family: 'KnewaveRegular', sans-serif;
+
   text-transform: uppercase;
 }
 .user-input {
@@ -131,14 +130,13 @@ body {
 .button:hover::after,
 .button:focus::before,
 .button:focus::after {
-  width: 50%;
+  width: 75%;
   height: 100%;
 }
 
 .button:focus::after,
 .button:hover::after {
   border-bottom-color: var(--lightRed);
-
   transition: width 0.3s ease-out 0.2s;
 }
 

@@ -46,7 +46,7 @@ export default function EndScreen({ playAgain }) {
   const showHighScore =
     currentScore === highestScore ? (
       <a
-        className='high-score'
+        className='high-score uppercase'
         onClick={() => {
           clearInterval(restartTimer);
           setCountDownText('');
@@ -70,8 +70,8 @@ export default function EndScreen({ playAgain }) {
       />
 
       <div className='final-score-container'>
-        <div className='score-header'>{`SCORE : `}</div>
-        <div className='final-score'>{currentScore}</div>
+        <div className='score-header uppercase'>{`SCORE : `}</div>
+        <div className='final-score uppercase'>{currentScore}</div>
         {showHighScore}
       </div>
 
@@ -83,7 +83,7 @@ export default function EndScreen({ playAgain }) {
         />
         PLAY AGAIN
       </button>
-      <p className='score-header'>
+      <p className='score-header uppercase'>
         {countDownText}{' '}
         <span>{restartCountDown > 0 ? restartCountDown : null}</span>
       </p>
