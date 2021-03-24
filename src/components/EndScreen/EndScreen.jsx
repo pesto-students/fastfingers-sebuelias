@@ -30,7 +30,7 @@ export default function EndScreen({ playAgain }) {
       clearInterval(restartTimer);
       playAgain();
     }
-  }, [restartCountDown, playAgain]);
+  }, [restartCountDown, playAgain, isNewGame]);
 
   const quitGame = () => {
     const userName = localStorage.getItem(localStorageKeys.USERNAME);

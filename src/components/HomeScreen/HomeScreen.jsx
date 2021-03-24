@@ -56,7 +56,7 @@ export default function HomeScreen() {
     return () => {
       // localStorage.clear();
     };
-  }, []);
+  }, [userNameRef]);
 
   useEffect(() => {
     if (!isSameUser) {
