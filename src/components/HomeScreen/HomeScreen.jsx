@@ -56,7 +56,8 @@ export default function HomeScreen() {
     return () => {
       // localStorage.clear();
     };
-  }, [userNameRef]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (!isSameUser) {
@@ -64,7 +65,8 @@ export default function HomeScreen() {
         userNameRef.current.focus();
       }
     }
-  }, [isSameUser, userNameRef]);
+    // eslint-disable-next-line
+  }, [isSameUser]);
 
   return isPlaying ? (
     <GameScreen />

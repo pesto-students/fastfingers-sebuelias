@@ -52,6 +52,10 @@ export default function GameScreen() {
     difficultyFactor.current = difficultyFactorUtil[difficulty];
     setUserInput('');
     setVanishingText(HANDS_READY_TEXT);
+    setShowVanishingText(true);
+    setTimeout(() => {
+      setShowVanishingText(false);
+    }, 1000);
     setRandomWord(getRandomWordForCurrentLevel(difficulty));
     setDuration(calculateDuration(randomWord, difficultyFactor.current));
   };
@@ -159,7 +163,7 @@ export default function GameScreen() {
               <GameWord currentWord={randomWord} currentInput={userInput} />
             </div>
             <input
-              className='game-input user-input user-input-text'
+              className='game-input user-input user-input-text uppercase'
               type='text'
               value={userInput}
               onChange={(event) => {
