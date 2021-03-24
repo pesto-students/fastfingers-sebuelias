@@ -1,19 +1,49 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import GamePad from '../assets/gamepad.svg';
 import UserIcons from '../assets/user.svg';
 import './Styles.css';
-import { sessionStorageKeys, difficultyUtil } from '../util';
+import { localStorageKeys, difficultyUtil, formatScore } from '../util';
 import PropTypes from 'prop-types';
 
 export default function GameHeader({ difficulty, isGameOver }) {
-  const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  const currentScore =
-    sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0;
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
+  const [currentScore, setCurrentScore] = useState(
+    localStorage.getItem(localStorageKeys.CURRENT_SCORE) ?? 0,
+  );
+
+  let scoreTImer = null;
+  const startScoreTimer = () => {
+    scoreTImer = setInterval(
+      () => setCurrentScore((prevScore) => prevScore + 1),
+      1000,
+    );
+  };
+
+  useEffect(() => {
+    localStorage.setItem(
+      localStorageKeys.CURRENT_SCORE,
+      formatScore(currentScore),
+    );
+  }, [currentScore]);
+
+  useEffect(() => {
+    if (!isGameOver) {
+      startScoreTimer();
+    } else {
+      clearTimeout(scoreTImer);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGameOver]);
 
   useEffect(() => {
     return () => {
-      sessionStorage.removeItem(sessionStorageKeys.CURRENT_SCORE);
+      clearTimeout(scoreTImer);
+      localStorage.setItem(
+        localStorageKeys.CURRENT_SCORE,
+        formatScore(currentScore),
+      );
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -40,7 +70,12 @@ export default function GameHeader({ difficulty, isGameOver }) {
 
       <div className='game-current-score'>
         <div>fast fingers</div>
-        {isGameOver ? null : <div>SCORE: {currentScore}</div>}
+        {isGameOver ? null : (
+          <div>
+            <span>SCORE: </span>
+            <span>{formatScore(currentScore)}</span>
+          </div>
+        )}
       </div>
     </header>
   );

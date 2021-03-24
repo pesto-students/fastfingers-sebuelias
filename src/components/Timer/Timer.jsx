@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './Timer.css';
-import { sessionStorageKeys, difficultyUtil } from '../../util';
+import { difficultyUtil } from '../../util';
 import {
   secondsToMilliseconds,
   calculateCircleDasharray,
@@ -9,11 +9,10 @@ import {
   formatTimeLeft,
 } from './TimerUtil';
 
-export default function Timer({ duration, difficultyFactor, onTimeOut }) {
-  const currentScore =
-    sessionStorage.getItem(sessionStorageKeys.CURRENT_SCORE) ?? 0;
-  const timeinMillisec = secondsToMilliseconds(duration);
+let timerInterval = null;
 
+export default function Timer({ duration, difficultyFactor, onTimeOut }) {
+  const timeinMillisec = secondsToMilliseconds(duration);
   const [remainingTime, setRemainingTime] = useState(timeinMillisec);
   const [circleDasharray, setCircleDasharray] = useState(
     calculateCircleDasharray(timeinMillisec, remainingTime),
@@ -23,35 +22,28 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     calculateRemainingPathColor(timeinMillisec, remainingTime),
   );
 
-  let timerInterval = null;
-
   const startTimer = () => {
-    console.log('timer');
     timerInterval = setInterval(() => {
-      if (remainingTime > 0) {
-        setRemainingTime((prevRemainingTime) => prevRemainingTime - 2);
-      }
-    }, 1);
-  };
-
-  const updateScore = () => {
-    const timeTakenForWord = Math.floor(timeinMillisec - remainingTime);
-    const timeTakenInSeconds = Number((timeTakenForWord / 1000).toFixed(2));
-    const newScore = (Number(currentScore) + timeTakenInSeconds).toFixed(2);
-    return newScore;
+      setRemainingTime((prevRemainingTime) => prevRemainingTime - 10);
+    }, 10);
   };
 
   const setNewTimeAndResetTimer = (newTime) => {
-    setRemainingTime(secondsToMilliseconds(newTime));
     clearInterval(timerInterval);
+    setRemainingTime(secondsToMilliseconds(newTime));
   };
 
   useEffect(() => {
-    sessionStorage.setItem(sessionStorageKeys.CURRENT_SCORE, updateScore());
-    setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
+    return () => {
+      setNewTimeAndResetTimer(0);
+    };
+  }, []);
+
+  useEffect(() => {
+    // setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
     setNewTimeAndResetTimer(duration);
     startTimer();
-  }, [difficultyFactor]);
+  }, [difficultyFactor, duration]);
 
   useEffect(() => {
     setCircleDasharray(calculateCircleDasharray(timeinMillisec, remainingTime));
@@ -60,22 +52,10 @@ export default function Timer({ duration, difficultyFactor, onTimeOut }) {
     );
 
     if (remainingTime <= 0) {
-      sessionStorage.setItem(sessionStorageKeys.CURRENT_SCORE, updateScore());
       setNewTimeAndResetTimer(0);
       onTimeOut();
     }
-  }, [remainingTime]);
-
-  useEffect(() => {
-    if (remainingTime <= 0) {
-      setNewTimeAndResetTimer(0);
-    } else {
-      startTimer();
-    }
-    return () => {
-      setNewTimeAndResetTimer(0);
-    };
-  }, []);
+  }, [remainingTime, onTimeOut, timeinMillisec]);
 
   return (
     <div className='base-timer'>

@@ -1,4 +1,5 @@
 import DictionaryFile from './assets/data/dictionary.json';
+import VanishingText from './assets/data/VanishingText.json';
 
 export const difficultyUtil = {
   EASY: 'EASY',
@@ -12,7 +13,7 @@ export const difficultyFactorUtil = {
   [difficultyUtil.HARD]: 2,
 };
 
-export const sessionStorageKeys = {
+export const localStorageKeys = {
   USERNAME: 'username',
   DIFFICULTY: 'difficulty',
   SELECTED_DIFFICULTY: 'selected_difficulty',
@@ -30,19 +31,30 @@ export const updateDifficultyWithDifficultyFactor = (difficultyFactor) => {
     calculatedDifficulty = difficultyUtil.HARD;
   }
 
-  const currentDifficulty = sessionStorage.getItem(
-    sessionStorageKeys.DIFFICULTY,
-  );
+  const currentDifficulty = localStorage.getItem(localStorageKeys.DIFFICULTY);
 
   if (calculatedDifficulty !== currentDifficulty) {
-    sessionStorage.setItem(sessionStorageKeys.DIFFICULTY, calculatedDifficulty);
+    localStorage.setItem(localStorageKeys.DIFFICULTY, calculatedDifficulty);
   }
   return calculatedDifficulty;
 };
 
+export const formatScore = (score) => {
+  let minutes = parseInt(score / 60);
+  let seconds = parseInt(score % 60);
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  const finalScore = `${minutes}.${seconds}`;
+  return finalScore;
+};
+
 export const getHighScore = () => {
-  const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  const scores = sessionStorage.getItem(getNameOfCurrentUserScores(userName));
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
+  const scores = localStorage.getItem(getNameOfCurrentUserScores(userName));
   const scoresArray = scores ? scores.trim().split(' ') : [];
   if (scoresArray.length === 0) {
     return Number(0);
@@ -54,7 +66,7 @@ export const getHighScore = () => {
 };
 
 export const getNameOfCurrentUserScores = (userName) => {
-  return `${userName}_${sessionStorageKeys.SCORES}`;
+  return `${userName}_${localStorageKeys.SCORES}`;
 };
 
 const MIN_DURATION = 2;
@@ -65,6 +77,12 @@ export const calculateDuration = (randomWord, difficultyFactor) => {
     durationCalculated = MIN_DURATION;
   }
   return durationCalculated;
+};
+
+export const generateRandomVanishText = () => {
+  const VanishingTextArray = VanishingText;
+  const randomIndex = getRandomIndex(VanishingTextArray.length);
+  return VanishingTextArray[randomIndex];
 };
 
 const getRandomIndex = (arrayLength) => {

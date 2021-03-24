@@ -1,20 +1,21 @@
 import React from 'react';
 import {
-  sessionStorageKeys,
+  localStorageKeys,
   getNameOfCurrentUserScores,
   getHighScore,
 } from '../util';
 
 export default function GameScoreBoard() {
-  const userName = sessionStorage.getItem(sessionStorageKeys.USERNAME);
-  const currentUserScores = sessionStorage.getItem(
+  const userName = localStorage.getItem(localStorageKeys.USERNAME);
+  const currentUserScores = localStorage.getItem(
     getNameOfCurrentUserScores(userName),
   );
 
-  const currentUserScoresArray = currentUserScores.trim().split(' ');
+  const currentUserScoresArray = currentUserScores
+    ? currentUserScores.trim().split(' ')
+    : null;
 
   const highestScore = getHighScore();
-  console.log(highestScore);
   const scoreBoardContent = currentUserScores ? (
     <ul className='score-list'>
       {currentUserScoresArray.map((score, index) => (
