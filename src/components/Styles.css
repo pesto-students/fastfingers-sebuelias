@@ -1,0 +1,63 @@
+.game-info {
+  display: flex;
+  height: 20%;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 2rem;
+  margin-top: 1%;
+}
+.game-cards {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  font-size: 1.5rem;
+}
+.game-info-card {
+  margin-bottom: 5%;
+  display: flex;
+  align-items: center;
+}
+.game-info-text {
+  padding-left: 5%;
+}
+.game-current-score {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  width: 100%;
+  text-align: right;
+}
+/* .game-current-score span {
+  padding-right: 3%;
+} */
+
+.scoreboard-container {
+  border: 1px solid var(--lightRed);
+  border-radius: 15px;
+  height: 100%;
+  padding: 0 15%;
+}
+
+.score-list {
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+}
+
+.score {
+  color: var(--white);
+  margin-bottom: 0.6rem;
+}
+.highest-score {
+  position: relative;
+}
+.highest-score::before {
+  position: absolute;
+  content: 'PERSONAL BEST';
+  color: var(--lightRed);
+  line-height: 1.18;
+  font-size: 0.5rem;
+  bottom: 90%;
+}

@@ -1,0 +1,14 @@
+.game-char {
+  font-size: 5rem;
+}
+.white-char {
+  color: var(--white);
+}
+
+.right-char {
+  color: var(--rightChar);
+}
+
+.wrong-char {
+  color: var(--wrongChar);
+}

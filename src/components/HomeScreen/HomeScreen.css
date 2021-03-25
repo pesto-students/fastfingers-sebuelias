@@ -1,0 +1,175 @@
+.home-screen-elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  /* padding: 8%; */
+}
+
+.home-screen-heading,
+.home-screen-user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  /* margin-bottom: 2rem; */
+  position: relative;
+}
+
+.name-req {
+  text-align: left;
+  width: 100%;
+  margin: 0;
+  height: 2rem;
+}
+
+.welcome-back {
+  width: 100%;
+}
+
+.welcome-back p {
+  font-size: 2rem;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+}
+
+p.username {
+  font-size: 2.5rem;
+  color: var(--white);
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.welcome-back .change-user {
+  font-size: 1rem;
+  color: var(--coolGrey);
+  text-align: right;
+  width: fit-content;
+  position: absolute;
+  right: 0;
+  bottom: 4.5rem;
+  color: var(--coolGrey);
+  text-align: right;
+}
+.welcome-back .change-user:hover {
+  cursor: pointer;
+  color: var(--white);
+}
+
+.home-screen-title {
+  margin: 0;
+}
+
+.home-screen-description {
+  position: relative;
+  /* width: 100%; */
+  display: inline-block;
+  text-align: center;
+  background: transparent;
+  z-index: 1;
+}
+
+.home-screen-description::after,
+.home-screen-description::before {
+  content: '';
+  /* height: 100%; */
+  display: block;
+  position: absolute;
+}
+.home-screen-description::after {
+  /* background: var(--lightRed); */
+
+  border-bottom: 1px solid var(--lightRed);
+  border-top: 1px solid var(--lightRed);
+  width: 100%;
+  left: 110%;
+  top: 50%;
+  /* transform: translatex(-50%); */
+  /* z-index: -2; */
+}
+.home-screen-description::before {
+  width: 100%;
+  right: 110%;
+  top: 50%;
+  border-bottom: 1px solid var(--lightRed);
+  border-top: 1px solid var(--lightRed);
+  /* background: var(--everGreen); */
+  /* z-index: -1; */
+}
+
+.game-difficulty {
+  background-color: transparent;
+  color: var(--coolGrey);
+  font-size: 2rem;
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.game-difficulty select {
+  opacity: 0.59;
+  box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.8);
+  background-color: var(--white);
+  border-radius: 15px;
+  position: relative;
+  z-index: 10;
+  font-size: 1em;
+}
+
+select + i.fa {
+  position: absolute;
+  /* this is so when you click on the chevron, your click actually goes on the dropdown menu */
+  pointer-events: none;
+  /* everything after this is just to cover up the original arrow */
+  /* (for browsers that don't support the syntax used above) */
+  background-color: transparent;
+  color: var(--white);
+  bottom: 1.5rem;
+  right: 1rem;
+}
+select:hover + i.fa,
+select:focus + i.fa {
+  color: var(--lightRed);
+}
+
+select option {
+  padding-right: 21px;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.start-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  font-size: 2.5rem;
+  color: var(--lightRed);
+  height: 3rem;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  opacity: 1;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.start-button:hover {
+  animation: none;
+}
