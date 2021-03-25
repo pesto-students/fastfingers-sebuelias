@@ -15,7 +15,7 @@ export default function EndScreen({ playAgain }) {
   const [isNewGame, setIsNewGame] = useState(false);
   const [restartCountDown, setRestartCounter] = useState(5);
   const [currentScore] = useState(
-    Number(localStorage.getItem(localStorageKeys.CURRENT_SCORE)),
+    localStorage.getItem(localStorageKeys.CURRENT_SCORE),
   );
 
   const [countDownText, setCountDownText] = useState('Game will restart in ');
@@ -23,6 +23,10 @@ export default function EndScreen({ playAgain }) {
     restartTimer = setInterval(() => {
       setRestartCounter((counter) => (counter -= 1));
     }, 1000);
+
+    return () => {
+      clearInterval(restartTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -44,7 +48,7 @@ export default function EndScreen({ playAgain }) {
   };
 
   const showHighScore =
-    currentScore === highestScore ? (
+    Number(currentScore) === highestScore ? (
       <a
         className='high-score uppercase'
         onClick={() => {
@@ -71,7 +75,9 @@ export default function EndScreen({ playAgain }) {
 
       <div className='final-score-container'>
         <div className='score-header uppercase'>{`SCORE : `}</div>
-        <div className='final-score uppercase'>{currentScore}</div>
+        <div className='final-score uppercase'>
+          {currentScore.replace('.', ':')}
+        </div>
         {showHighScore}
       </div>
 

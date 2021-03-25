@@ -73,7 +73,7 @@ export default function GameHeader({ difficulty, isGameOver }) {
         {isGameOver ? null : (
           <div>
             <span>SCORE: </span>
-            <span>{formatScore(currentScore)}</span>
+            <span>{formatScore(currentScore).replace('.', ':')}</span>
           </div>
         )}
       </div>
